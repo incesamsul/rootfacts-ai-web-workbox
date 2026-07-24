@@ -3,12 +3,13 @@ APP_PASSWORD=tidak ada password
 GITHUB_REPO=https://github.com/incesamsul/rootfacts-ai-web-workbox
 
 Revisi terbaru untuk reviewer:
-- Deploy produksi dipindah ke GitHub Pages agar reviewer bisa membuka langsung tanpa password.
-- sw.js sekarang menggunakan Workbox CDN 7.3.0 via importScripts('https://storage.googleapis.com/workbox-cdn/releases/7.3.0/workbox-sw.js').
-- Precaching manual Cache API sudah diganti dengan workbox.precaching.precacheAndRoute([...]) untuk index, manifest, CSS, JS, model TensorFlow.js, metadata, weights, dan icons.
-- Runtime route navigation memakai workbox.strategies.NetworkFirst.
-- Runtime cache CDN memakai workbox.strategies.StaleWhileRevalidate.
-- Fun fact dibuat oleh Transformers.js text2text-generation pipeline memakai model Xenova/flan-t5-small.
-- Label hasil klasifikasi dipakai langsung sebagai topik prompt di FunFactService.buildPrompt().
-- Fallback hardcode untuk konten fun fact sudah dihapus. Jika model gagal, aplikasi menampilkan error, bukan fakta pengganti.
-- Manifest PWA sudah berisi icons 192x192 dan 512x512 dengan src, sizes, type, dan purpose. File ikon tersedia di assets/icons/.
+- Kriteria GenAI diperbaiki pada `assets/js/services/facts.service.js`.
+- Model Transformers.js diganti dari `Xenova/flan-t5-small` ke `Xenova/LaMini-Flan-T5-248M` karena outputnya lebih relevan untuk fakta nutrisi/kuliner label makanan seperti Soybean.
+- Label terbaru dari TensorFlow.js (`detectionResult.className`) dikirim langsung ke `FunFactService.generateFunFact(label, tone)`, lalu disanitasi sebagai label prompt.
+- Prompt sekarang format tanya-jawab stabil: `Question: What is one useful nutrition or cooking fact about <label>? Answer:` sehingga label seperti Soybean menghasilkan fakta relevan tentang protein/fiber, bukan kalimat berulang tanpa makna.
+- Parameter generasi dibuat deterministik: `do_sample: false`, `num_beams: 2`, `temperature: 0.2`, `top_p: 0.85`, `repetition_penalty: 1.15`, `no_repeat_ngram_size: 3`.
+- Ada retry prompt jika hasil pertama kosong, tidak menyebut label, atau hanya definisi lemah seperti `<label> is a vegetable`.
+- Fun fact yang tampil diberi prefix label terdeteksi: `Tentang <label>:` supaya reviewer bisa memastikan teks terkait objek hasil klasifikasi terbaru.
+- Tidak ada fallback fun fact hardcode. Jika model gagal menghasilkan teks relevan, aplikasi menampilkan error.
+- Kriteria PWA tetap memakai Workbox CDN 7.3.0 via importScripts dan `workbox.precaching.precacheAndRoute([...])`, bukan Cache API manual.
+- Manifest PWA tetap berisi icons 192x192 dan 512x512 dengan src, sizes, type, dan purpose. File ikon tersedia di assets/icons/.
