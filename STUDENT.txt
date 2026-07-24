@@ -1,7 +1,9 @@
-APP_URL=https://chimerical-eclair-529853.netlify.app/
-APP_PASSWORD=My-Drop-Site
+APP_URL=https://incesamsul.github.io/rootfacts-ai-web-workbox/
+APP_PASSWORD=tidak ada password
+GITHUB_REPO=https://github.com/incesamsul/rootfacts-ai-web-workbox
 
 Revisi terbaru untuk reviewer:
+- Deploy produksi dipindah ke GitHub Pages agar reviewer bisa membuka langsung tanpa password.
 - sw.js sekarang menggunakan Workbox CDN 7.3.0 via importScripts('https://storage.googleapis.com/workbox-cdn/releases/7.3.0/workbox-sw.js').
 - Precaching manual Cache API sudah diganti dengan workbox.precaching.precacheAndRoute([...]) untuk index, manifest, CSS, JS, model TensorFlow.js, metadata, weights, dan icons.
 - Runtime route navigation memakai workbox.strategies.NetworkFirst.
