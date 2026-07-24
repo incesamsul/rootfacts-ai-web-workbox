@@ -1,0 +1,12 @@
+APP_URL=https://chimerical-eclair-529853.netlify.app/
+APP_PASSWORD=My-Drop-Site
+
+Revisi terbaru untuk reviewer:
+- sw.js sekarang menggunakan Workbox CDN 7.3.0 via importScripts('https://storage.googleapis.com/workbox-cdn/releases/7.3.0/workbox-sw.js').
+- Precaching manual Cache API sudah diganti dengan workbox.precaching.precacheAndRoute([...]) untuk index, manifest, CSS, JS, model TensorFlow.js, metadata, weights, dan icons.
+- Runtime route navigation memakai workbox.strategies.NetworkFirst.
+- Runtime cache CDN memakai workbox.strategies.StaleWhileRevalidate.
+- Fun fact dibuat oleh Transformers.js text2text-generation pipeline memakai model Xenova/flan-t5-small.
+- Label hasil klasifikasi dipakai langsung sebagai topik prompt di FunFactService.buildPrompt().
+- Fallback hardcode untuk konten fun fact sudah dihapus. Jika model gagal, aplikasi menampilkan error, bukan fakta pengganti.
+- Manifest PWA sudah berisi icons 192x192 dan 512x512 dengan src, sizes, type, dan purpose. File ikon tersedia di assets/icons/.
